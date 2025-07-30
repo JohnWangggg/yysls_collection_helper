@@ -35,8 +35,8 @@ class ConfigEditor(ft.Container):
         self.like_operation = ft.Dropdown(
             label="点赞操作模式",
             options=[
-                ft.dropdown.Option("0", "不管点赞继续采集"),
-                ft.dropdown.Option("1", "离开点赞人物")
+                ft.dropdown.Option("1", "不管点赞继续采集"),
+                ft.dropdown.Option("2", "离开点赞人物")
             ],
             value=self.config["Settings"]["like_operation"]
         )
