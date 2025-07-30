@@ -1,7 +1,7 @@
 import time
 import configparser
 import pyuac
-import sys
+import argparse
 import logging
 from check import GameWindowChecker
 from find import FindGoods
@@ -13,9 +13,17 @@ import globals  # 新增导入
 
 
 # 读取配置
+CONFIG_PATH = "config.ini"
+parser = argparse.ArgumentParser(description="燕云十六声自动采集")
+parser.add_argument("--config", help="配置文件路径", default=CONFIG_PATH)
+parser.add_argument("--debug", action="store_true", help="调试模式")
+args, unknown = parser.parse_known_args()
+CONFIG_PATH = args.config
+
 config = configparser.ConfigParser()
-with open("config.ini", "r", encoding="utf-8") as config_file:
+with open(CONFIG_PATH, "r", encoding="utf-8") as config_file:
     config.read_file(config_file)
+
 COLLECTIBLE_NAME = config["Settings"]["collectible_name"]
 LIKE_OPERATION = int(config["Settings"]["like_operation"])
 GOODS_NAME_1 = config["Settings"]["goods_name_1"]
@@ -161,7 +169,7 @@ def main(debug=False):
     bot.start(debug=debug)
 
 if __name__ == "__main__":
-    debug = '--debug' in sys.argv
+    debug = args.debug
     # 检查是否有管理员权限
     if not pyuac.isUserAdmin():
         pyuac.runAsAdmin()
